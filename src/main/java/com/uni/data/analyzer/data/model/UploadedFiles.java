@@ -7,4 +7,7 @@ public class UploadedFiles {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AnalysisOperation analysisOperation;
 }

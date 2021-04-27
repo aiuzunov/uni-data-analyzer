@@ -13,10 +13,10 @@ public class AnalysisOperation {
 
     private String sessionId;
 
-    @OneToMany(mappedBy = "Results")
+    @OneToMany(mappedBy = "analysisOperation")
     private Set<Results> results;
 
-    @OneToMany(mappedBy = "UploadedFiles")
+    @OneToMany(mappedBy = "analysisOperation")
     private Set<UploadedFiles> uploadedFiles;
 
     public AnalysisOperation(String sessionId) {
