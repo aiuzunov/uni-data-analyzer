@@ -5,6 +5,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class FileUploadController {
     @PostMapping("/upload")
     public ResponseEntity uploadFileForAnalysis(@RequestParam("file") MultipartFile file) {
         try {
-            storageService.storeFile(file);
+            storageService.storeFile(file, RequestContextHolder.getRequestAttributes().getSessionId());
         } catch (IOException | InvalidFormatException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
@@ -29,7 +30,7 @@ public class FileUploadController {
     @PostMapping("/upload/files")
     public ResponseEntity uploadFilesForAnalysis(@RequestParam("files") MultipartFile[] files) {
         try {
-            storageService.storeFiles(files);
+            storageService.storeFiles(files, RequestContextHolder.getRequestAttributes().getSessionId());
         } catch (IOException | InvalidFormatException e) {
             return ResponseEntity.unprocessableEntity().build();
         }

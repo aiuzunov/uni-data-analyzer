@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface FileStorageService {
-    void storeFile(MultipartFile file) throws IOException, InvalidFormatException;
+    void storeFile(MultipartFile file, String sessionId) throws IOException, InvalidFormatException;
 
-    void storeFiles(MultipartFile[] file) throws IOException, InvalidFormatException;
+    void storeFiles(MultipartFile[] file, String sessionId) throws IOException, InvalidFormatException;
 }
