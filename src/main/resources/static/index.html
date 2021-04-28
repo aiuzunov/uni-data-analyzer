@@ -35,7 +35,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Качи два отделни xlsx/csv файла</h5>
                         <p class="card-text">Трябва и двата файла да са качени преди да може да се направи анализ.</p>
-                        <div id="file2-error" class="alert alert-danger" role="alert" style="display: none">There was error while parsing the file.</div>
+                        <div id="file2-error" class="alert alert-danger" role="alert" style="display: none"></div>
+                        <div id="file2-success" class="alert alert-success" role="alert" style="display: none">Файловете са успешно качени!</div>
                         <div class="row row-padding mt-3">
                             <div class="input-group">
                                 <input id="file1-file-picker" type="file" class="form-control" aria-label="Upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -67,7 +68,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Качи архив съдържащ файловете за анализ.</h5>
                         <p class="card-text">След като архивът е качен, ще имате достъп до анализ функционалностите</p>
-                        <div id="zip-error" class="alert alert-danger" role="alert" style="display: none">There was error while parsing the file.</div>
+                        <div id="zip-error" class="alert alert-danger" role="alert" style="display: none"></div>
+                        <div id="zip-success" class="alert alert-success" role="alert" style="display: none">Файлът е успешно качен!</div>
                         <div class="row row-padding mt-3">
                             <div class="input-group">
                                 <input id="zip-file-picker" type="file" class="form-control" aria-label="Upload" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed">

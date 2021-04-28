@@ -1,67 +1,84 @@
-$("#file1-file-picker").change(enableUploadBtn);
+$file1Picker = $("#file1-file-picker");
+$file2Picker = $("#file2-file-picker");
+$zipFilePicker = $("#zip-file-picker");
+$filesUploadBtn = $("#file2-upload-btn");
+$zipFileUploadBtn = $("#zip-upload-btn");
 
-$("#file2-file-picker").change(enableUploadBtn);
-
-$("#file2-upload-btn").click(uploadFiles);
-
-$("#zip-upload-btn").click(function () {
-    uploadZip();
-});
-
-
-$("#zip-file-picker").change(function () {
+$file1Picker.change(enableUploadBtn);
+$file2Picker.change(enableUploadBtn);
+$zipFilePicker.change(function () {
     $("#zip-upload-btn").prop('disabled', !($(this).val() != ""));
 });
 
+$filesUploadBtn.click(uploadFiles);
+$zipFileUploadBtn.click(function () {
+    uploadZip();
+});
+
 function arePickersFilled() {
-    let filePicker1 = $('#file1-file-picker');
-    let filePicker2 = $('#file2-file-picker');
-    return filePicker1.val() != "" && filePicker2.val() != ""
+    return $file1Picker.val() != "" && $file2Picker.val() != ""
 }
 
 function enableUploadBtn() {
-    $('#file2-upload-btn').prop('disabled', !arePickersFilled());
+    $filesUploadBtn.prop('disabled', !arePickersFilled());
 }
 
 function uploadFiles() {
+    let $fileError = $("#file2-error");
+    let $success = $("#file2-success");
     if (arePickersFilled()) {
         let $progress = $("#files-uploading-progress");
-        $("#file2-error").hide();
-        $("#files-uploading-progress").show();
+        $fileError.hide();
+        $progress.show();
         RestApiClient.uploadFiles(
-            getFile($('#file1-file-picker')),
-            getFile($('#file2-file-picker')),
+            getFile($file1Picker),
+            getFile($file2Picker),
             function () {
+                $success.show();
                 $progress.hide();
-                enableAnalysisBtns(true, false)
+                enableAnalysisBtns(true, false);
+                $filesUploadBtn.prop('disabled', true);
             },
             function () {
+                $success.hide();
+                $fileError.text("Възникна грешка при четенето на файловете, моля проверете дали формата е правилен!");
                 $progress.hide();
-                $("#file2-error").show();
+                $fileError.show();
                 enableAnalysisBtns(false, false)
             });
     } else {
-        // Here there should be error message just in case.
+        $success.hide();
+        $fileError.text("Моля изберете файлове, които да бъдат качени!");
+        $fileError.show();
     }
 }
 
 function uploadZip() {
-    let $progress = $("#zip-uploading-progress")
-    if ($("#zip-file-picker").val() != "") {
+    let $error = $("#zip-error");
+    let $success = $("#zip-success");
+    if ($zipFilePicker.val() != "") {
+        let $progress = $("#zip-uploading-progress")
         $progress.show();
-        $("#zip-error").hide();
+        $error.hide();
 
         RestApiClient.uploadFile(getFile($("#zip-file-picker")), function () {
-            $("#zip-error").hide();
+            $success.show();
+            $error.hide();
             $progress.hide();
-            $("#zip-upload-btn").prop('disabled', true);
-            enableAnalysisBtns(true, true)
+            $zipFileUploadBtn.prop('disabled', true);
+            enableAnalysisBtns(true, true);
         }, function (data) {
-            $("#zip-error").show();
+            $success.hide();
+            $error.text("Възникна грешка при четенето на файла, моля проверете дали формата е правилен!");
+            $error.show();
             $progress.hide();
-            $("#zip-upload-btn").prop('disabled', false);
+            $zipFileUploadBtn.prop('disabled', false);
             enableAnalysisBtns(false, true)
         });
+    } else {
+        $success.hide();
+        $error.text("Моля изберете файл, който да бъде качен!");
+        $error.show();
     }
 }
 
