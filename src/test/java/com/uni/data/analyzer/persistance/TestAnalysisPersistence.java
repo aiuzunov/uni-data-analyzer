@@ -12,11 +12,17 @@ import com.uni.data.analyzer.data.repositories.AnalysisOperationRepository;
 import com.uni.data.analyzer.data.repositories.ResultsRepository;
 import com.uni.data.analyzer.data.repositories.UploadedFilesRepository;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -45,5 +51,24 @@ public class TestAnalysisPersistence {
         assertThat(operation.getSessionId(), is("SessionId"));
         assertThat(operation.getResults(), hasSize(1));
         assertThat(operation.getUploadedFiles(), hasSize(1));
+    }
+
+    @Test
+    public void fileSave() throws IOException {
+        var uploadedFile = File.createTempFile("temp", null);
+        FileInputStream input = new FileInputStream(uploadedFile);
+        var multiPartFile = new MockMultipartFile("file", uploadedFile.getName(), "text/plain", IOUtils.toByteArray(input));
+
+        var analysisOperation = new AnalysisOperation("sessionId");
+        analysisOperation = analysisOperationRepository.save(analysisOperation);
+
+        var entry = new UploadedFiles(multiPartFile.getName(), multiPartFile.getBytes());
+        entry.setAnalysisOperation(analysisOperation);
+        entry = uploadedFilesRepository.save(entry);
+        analysisOperation.getUploadedFiles().add(entry);
+
+        var newEntry = uploadedFilesRepository.findAllByAnalysisOperation_Id(analysisOperation.getId());
+        assertThat(newEntry.getId(), is(entry.getId()));
+        assertThat(newEntry.getName(), is(multiPartFile.getName()));
     }
 }
