@@ -1,0 +1,26 @@
+Time;Event context;Component;Event name;Description
+2/03/21, 14:12;Course: Semantic Web;System;Course viewed;The user with id '8429' viewed the course with id '130'.
+2/03/21, 14:11;Wiki: ������ �� ������;Wiki;Course module viewed;The user with id '8429' viewed the 'wiki' activity with course module id '6512'.
+2/03/21, 14:11;Course: Semantic Web;System;Course viewed;The user with id '8429' viewed the course with id '130'.
+2/03/21, 13:38;Course: Semantic Web;System;Course viewed;The user with id '8401' viewed the course with id '130'.
+1/03/21, 12:17;Course: Semantic Web;System;Course viewed;The user with id '8380' viewed the course with id '130'.
+1/03/21, 12:05;Course: Semantic Web;System;Course viewed;The user with id '8414' viewed the course with id '130'.
+26/02/21, 17:47;File: ������ ��������� ��� 26.01.2021;File;Course module viewed;The user with id '8427' viewed the 'resource' activity with course module id '6519'.
+26/02/21, 17:46;Course: Semantic Web;System;Course viewed;The user with id '8427' viewed the course with id '130'.
+26/02/21, 11:28;Wiki: ����� �a ���� �� ������ (40 �.);Wiki;Course module viewed;The user with id '8452' viewed the 'wiki' activity with course module id '5135'.
+26/02/21, 11:28;Course: Semantic Web;System;Course viewed;The user with id '8452' viewed the course with id '130'.
+26/02/21, 11:28;Wiki: ������� ������/ ������� (30 �.);Wiki;Course module viewed;The user with id '8452' viewed the 'wiki' activity with course module id '5136'.
+26/02/21, 11:28;Course: Semantic Web;System;Course viewed;The user with id '8452' viewed the course with id '130'.
+26/02/21, 00:32;File: ������ ��������� ��� 26.01.2021;File;Course module viewed;The user with id '8380' viewed the 'resource' activity with course module id '6519'.
+26/02/21, 00:32;Course: Semantic Web;System;Course viewed;The user with id '8380' viewed the course with id '130'.
+25/02/21, 23:57;File: ������ ��������� ��� 26.01.2021;File;Course module viewed;The user with id '8380' viewed the 'resource' activity with course module id '6519'.
+25/02/21, 23:57;Course: Semantic Web;System;Course viewed;The user with id '8380' viewed the course with id '130'.
+25/02/21, 23:32;Course: Semantic Web;System;Course viewed;The user with id '8373' viewed the course with id '130'.
+25/02/21, 23:32;Wiki: ������� ������/ ������� (30 �.);Wiki;Course module viewed;The user with id '8373' viewed the 'wiki' activity with course module id '5136'.
+25/02/21, 23:32;Course: Semantic Web;System;Course viewed;The user with id '8373' viewed the course with id '130'.
+25/02/21, 22:53;Wiki: ����� �a ���� �� ������ (40 �.);Wiki;Course module viewed;The user with id '8373' viewed the 'wiki' activity with course module id '5135'.
+25/02/21, 22:53;Course: Semantic Web;System;Course viewed;The user with id '8373' viewed the course with id '130'.
+25/02/21, 22:40;Wiki: ����� �a ���� �� ������ (40 �.);Wiki;Course module viewed;The user with id '8391' viewed the 'wiki' activity with course module id '5135'.
+25/02/21, 22:40;Course: Semantic Web;System;Course viewed;The user with id '8391' viewed the course with id '130'.
+25/02/21, 22:30;File: ������ ��������� ��� 26.01.2021;File;Course module viewed;The user with id '8400' viewed the 'resource' activity with course module id '6519'.
+25/02/21, 22:30;Course: Semantic Web;System;Course viewed;The user with id '8400' viewed the course with id '130'.
