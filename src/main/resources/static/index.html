@@ -10,6 +10,7 @@
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/index.css}"/>
+    <script th:src="@{/js/bootstrap.js}"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -18,10 +19,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Upload Files</a>
+                        <a class="nav-link active" href="#">Качване и анализ на файлове</a>
                     </li>
                     <li class="=nav-item">
-                        <a class="nav-link" href="/last-uploads">Last uploads</a>
+                        <a class="nav-link" href="/last-uploads">Последни анализи</a>
                     </li>
                 </ul>
             </div>
@@ -48,12 +49,14 @@
                                 <input id="file2-file-picker" type="file" class="form-control" aria-label="Upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                             </div>
                         </div>
-                        <button id="file2-upload-btn" class="btn btn-outline-secondary mt-3" type="button" disabled>
-                            <div id="files-uploading-progress" class="spinner-border spinner-border-sm" role="status" style="display: none"></div>
-                            Качи
-                        </button>
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="За да е активен бутона за качване, трябва да сте избрали файлове.">
+                            <button id="file2-upload-btn" class="btn btn-outline-secondary mt-3" type="button" disabled>
+                                <div id="files-uploading-progress" class="spinner-border spinner-border-sm" role="status" style="display: none"></div>
+                                Качи
+                            </button>
+                        </span>
                         <div class="row mt-3">
-                            <div class="btn-group" role="group">
+                            <div class="btn-group" role="group" title="За да са активни бутоните за анализ трябва да сте качили файлове за анализ.">
                                 <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 1</button>
                                 <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 2</button>
                                 <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 3</button>
@@ -73,14 +76,16 @@
                         <div class="row row-padding mt-3">
                             <div class="input-group">
                                 <input id="zip-file-picker" type="file" class="form-control" aria-label="Upload" accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed">
-                                <button id="zip-upload-btn" class="btn btn-outline-secondary" type="button" disabled>
-                                    <div id="zip-uploading-progress" class="spinner-border spinner-border-sm" role="status" style="display: none"></div>
-                                    Качи
-                                </button>
+                                <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="За да е активен бутона за качване, трябва да сте избрали файл.">
+                                    <button id="zip-upload-btn" class="btn btn-outline-secondary" type="button" disabled>
+                                        <div id="zip-uploading-progress" class="spinner-border spinner-border-sm" role="status" style="display: none"></div>
+                                        Качи
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="btn-group" role="group">
+                            <div class="btn-group" role="group" title="За да са активни бутоните за анализ трябва да сте качили файл за анализ.">
                                 <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 1</button>
                                 <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 2</button>
                                 <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 3</button>

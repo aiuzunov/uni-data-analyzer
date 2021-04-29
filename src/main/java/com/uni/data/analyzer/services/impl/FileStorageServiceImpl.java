@@ -1,11 +1,13 @@
 package com.uni.data.analyzer.services.impl;
 
+import com.opencsv.exceptions.CsvValidationException;
 import com.uni.data.analyzer.data.model.AnalysisOperation;
 import com.uni.data.analyzer.data.model.UploadedFiles;
 import com.uni.data.analyzer.data.repositories.AnalysisOperationRepository;
 import com.uni.data.analyzer.data.repositories.UploadedFilesRepository;
 import com.uni.data.analyzer.services.FileParser;
 import com.uni.data.analyzer.services.FileStorageService;
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.xmlbeans.impl.store.Path;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -28,17 +32,31 @@ public class FileStorageServiceImpl implements FileStorageService {
     private AnalysisOperationRepository analysisOperationRepository;
 
     @Autowired
-    private FileParser parser;
+    private List<FileParser> parsers;
 
     @Override
-    public void storeFile(MultipartFile file, String sessionId) throws IOException, InvalidFormatException {
+    public void storeFile(MultipartFile file, String sessionId) throws IOException, InvalidFormatException, CsvValidationException {
         var zipStream = new ZipInputStream(file.getInputStream());
+        boolean hasEntries = false;
+
         for (ZipEntry entry; (entry = zipStream.getNextEntry()) != null; ) {
+            hasEntries = true;
             if(entry.isDirectory()) {
                throw new InvalidFormatException("It is expected to have flat structure within the Zip file");
             }
-            parser.validate(zipStream);
+            String entryName = entry.getName();
+            var parser = parsers.stream()
+                    .filter(p -> p.canHandleFile(entryName))
+                    .findFirst()
+                    .orElseThrow(() -> new InvalidFormatException("Format is not supported"));
+            if(!parser.validate(zipStream)) {
+                throw new InvalidFormatException("Failed to parse zip file");
+            }
         }
+        if(!hasEntries) {
+            throw new InvalidFormatException("Empty zip file.");
+        }
+
 
         zipStream = new ZipInputStream(file.getInputStream());
         var analysisOperation = new AnalysisOperation(sessionId);
@@ -59,10 +77,13 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public void storeFiles(MultipartFile[] files, String sessionId) throws IOException, InvalidFormatException {
-        for(int i = 0; i < files.length; i++) {
-            MultipartFile file = files[i];
-            if(!parser.validate(file.getInputStream())) {
+    public void storeFiles(MultipartFile[] files, String sessionId) throws IOException, InvalidFormatException, CsvValidationException {
+        for (MultipartFile file : files) {
+            var parser = parsers.stream()
+                    .filter(p -> p.canHandleFile(file.getOriginalFilename()))
+                    .findFirst()
+                    .orElseThrow(() -> new InvalidFormatException("Format is not supported"));
+            if (!parser.validate(file.getInputStream())) {
                 throw new InvalidFormatException("Invalid format within the .xlsx");
             }
         }
@@ -70,8 +91,8 @@ public class FileStorageServiceImpl implements FileStorageService {
         var analysisOperation = new AnalysisOperation(sessionId);
         analysisOperation = analysisOperationRepository.save(analysisOperation);
 
-        for(int i = 0; i < files.length; i++) {
-            var fileEntity = new UploadedFiles(files[i].getName(), files[i].getBytes());
+        for (MultipartFile file : files) {
+            var fileEntity = new UploadedFiles(file.getOriginalFilename(), file.getBytes());
             fileEntity.setAnalysisOperation(analysisOperation);
             uploadedFilesRepository.save(fileEntity);
             analysisOperation.getUploadedFiles().add(fileEntity);

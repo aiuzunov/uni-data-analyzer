@@ -1,7 +1,9 @@
 package com.uni.data.analyzer.controllers;
 
+import com.opencsv.exceptions.CsvValidationException;
 import com.uni.data.analyzer.services.FileStorageService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class FileUploadController {
     public ResponseEntity uploadFileForAnalysis(@RequestParam("file") MultipartFile file) {
         try {
             storageService.storeFile(file, RequestContextHolder.getRequestAttributes().getSessionId());
-        } catch (IOException | InvalidFormatException e) {
+        } catch (IOException | NotOfficeXmlFileException | InvalidFormatException | CsvValidationException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
         return ResponseEntity.ok().build();
@@ -31,7 +33,7 @@ public class FileUploadController {
     public ResponseEntity uploadFilesForAnalysis(@RequestParam("files") MultipartFile[] files) {
         try {
             storageService.storeFiles(files, RequestContextHolder.getRequestAttributes().getSessionId());
-        } catch (IOException | InvalidFormatException e) {
+        } catch (IOException | NotOfficeXmlFileException | InvalidFormatException | CsvValidationException e) {
             return ResponseEntity.unprocessableEntity().build();
         }
         return ResponseEntity.ok().build();

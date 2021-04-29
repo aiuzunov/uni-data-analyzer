@@ -1,5 +1,6 @@
 package com.uni.data.analyzer.services;
 
+import com.opencsv.exceptions.CsvValidationException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,5 +11,7 @@ public interface FileParser {
 
     void parseFile(MultipartFile file) throws IOException;
 
-    boolean validate(InputStream fileInputStream) throws IOException, InvalidFormatException;
+    boolean validate(InputStream fileInputStream) throws IOException, InvalidFormatException, CsvValidationException;
+
+    boolean canHandleFile(String filename);
 }

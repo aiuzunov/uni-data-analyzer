@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FileParserImpl implements FileParser {
+public class XLSFileParserImpl extends AbstractFileParser {
 
     @Override
     public void parseFile(MultipartFile file) {
@@ -33,17 +33,8 @@ public class FileParserImpl implements FileParser {
         return validateHeadings(headers);
     }
 
-    private boolean validateHeadings(List<String> headers) {
-        if (headers.size() == 2) {
-            return headers.get(0).equals("ID") && headers.get(1).equals("Result");
-        }
-
-        if (headers.size() == 5) {
-            return headers.get(0).equals("Time") && headers.get(1).equals("Event context")
-                    && headers.get(2).equals("Component") && headers.get(3).equals("Event name")
-                    && headers.get(4).equals("Description");
-        }
-
-        return false;
+    @Override
+    public boolean canHandleFile(String filename) {
+        return filename.endsWith(".xls") || filename.endsWith(".xlsx");
     }
 }
