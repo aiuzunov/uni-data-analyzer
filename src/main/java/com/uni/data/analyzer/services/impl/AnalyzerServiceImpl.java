@@ -79,7 +79,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
 
     private Map<String, Object> createCentralTrendAnalysis(String sessionId) {
         AnalysisOperation operation = analysisOperationRepository.findFirstBySessionIdOrderByIdDesc(sessionId);
-        Set<UploadedFile> files = getUploadedFiles(operation, CENTRAL_TREND.getName());
+        Set<UploadedFile> files = getUploadedFiles(operation, CENTRAL_TREND.getBulgarianName());
 
         UploadedFile logFile = fileDataService.getRequiredLogFile(files);
         Map<String, Object> savedAnalysisValues = getSavedAnalysisValues(CentralTrendAnalysis.class, logFile);
@@ -109,9 +109,8 @@ public class AnalyzerServiceImpl implements AnalyzerService {
     }
 
     private Map<String, Object> createCorrelationAnalysis(String sessionId) {
-        Iterable<AnalysisOperation> all = analysisOperationRepository.findAll();
         AnalysisOperation operation = analysisOperationRepository.findFirstBySessionIdOrderByIdDesc(sessionId);
-        Set<UploadedFile> files = getUploadedFiles(operation, CORRELATION.getName());
+        Set<UploadedFile> files = getUploadedFiles(operation, CORRELATION.getBulgarianName());
 
         // get files
         UploadedFile logFile = fileDataService.getRequiredLogFile(files);
@@ -121,10 +120,10 @@ public class AnalyzerServiceImpl implements AnalyzerService {
         }};
 
         // Check for previously calculated analysis
-//        Map<String, Object> savedAnalysis = getSavedAnalysisValues(CorrelationAnalysis.class, filesForAnalysis);
-//        if (!savedAnalysis.isEmpty()) {
-//            return savedAnalysis;
-//        }
+        Map<String, Object> savedAnalysis = getSavedAnalysisValues(CorrelationAnalysis.class, filesForAnalysis);
+        if (!savedAnalysis.isEmpty()) {
+            return savedAnalysis;
+        }
 
         // Parse files
         FileData<String> parsedLogFile = fileDataService.parseFile(logFile);
@@ -210,7 +209,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
 
     private Map<String, Object> createDispersionAnalysis(String sessionId) {
         AnalysisOperation operation = analysisOperationRepository.findFirstBySessionIdOrderByIdDesc(sessionId);
-        Set<UploadedFile> files = getUploadedFiles(operation, DISPERSION.getName());
+        Set<UploadedFile> files = getUploadedFiles(operation, DISPERSION.getBulgarianName());
 
         UploadedFile logFile = fileDataService.getRequiredLogFile(files);
         Map<String, Object> savedAnalysis = getSavedAnalysisValues(DispersionAnalysis.class, logFile);
@@ -252,7 +251,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
 
     private Map<String, Object> createFrequencyAnalysis(String sessionId) {
         AnalysisOperation operation = analysisOperationRepository.findFirstBySessionIdOrderByIdDesc(sessionId);
-        Set<UploadedFile> files = getUploadedFiles(operation, FREQUENCY.getName());
+        Set<UploadedFile> files = getUploadedFiles(operation, FREQUENCY.getBulgarianName());
 
         UploadedFile logFile = fileDataService.getRequiredLogFile(files);
         Map<String, Object> savedAnalysis = getSavedAnalysisValues(FrequencyAnalysis.class, logFile);

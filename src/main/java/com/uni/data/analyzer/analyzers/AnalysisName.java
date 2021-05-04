@@ -7,16 +7,18 @@ import static utils.ArgumentValidationUtils.requireNonNull;
 
 public enum AnalysisName {
 
-    CORRELATION("correlation"),
-    CENTRAL_TREND("central-trend"),
-    DISPERSION("dispersion"),
-    FREQUENCY("frequency");
+    CORRELATION("correlation", "корелационен анализ"),
+    CENTRAL_TREND("central-trend", "анализ за централна тенденция"),
+    DISPERSION("dispersion", "анализ за мерки за резсейване"),
+    FREQUENCY("frequency", "честотен анализ");
 
     private static final String UNSUPPORTED_ANALYSIS_MESSAGE = "Анализ '%s' не е поддържан";
     private final String name;
+    private final String bulgarianName;
 
-    AnalysisName(String name) {
+    AnalysisName(String name, String bulgarianName) {
         this.name = name;
+        this.bulgarianName = bulgarianName;
     }
 
     public static AnalysisName map(String name) {
@@ -37,5 +39,9 @@ public enum AnalysisName {
 
     public String getName() {
         return name;
+    }
+
+    public String getBulgarianName() {
+        return bulgarianName;
     }
 }

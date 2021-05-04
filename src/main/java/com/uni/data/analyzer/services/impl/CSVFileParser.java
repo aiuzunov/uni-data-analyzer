@@ -29,7 +29,8 @@ public class CSVFileParser extends AbstractFileParser {
         try {
             Set<String> titles = Arrays.stream(buildCSVReader(data).readNext())
                     .collect(Collectors.toUnmodifiableSet());
-            return Arrays.stream(LogFileColumns.values()).allMatch(title -> titles.contains(title.getName()));
+
+            return titles.containsAll(LogFileColumns.getUTF8Values());
         } catch (IOException | CsvValidationException e) {
             throw new ParseException(PARSING_ERROR_MESSAGE);
         }
