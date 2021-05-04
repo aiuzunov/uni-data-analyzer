@@ -1,9 +1,11 @@
 package com.uni.data.analyzer.data.model;
 
+import com.uni.data.analyzer.data.model.analysis.AnalysisOperation;
+
 import javax.persistence.*;
 
-@Entity(name="UploadedFiles")
-public class UploadedFiles {
+@Entity(name = "UploadedFiles")
+public class UploadedFile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,9 +18,10 @@ public class UploadedFiles {
     @ManyToOne(fetch = FetchType.LAZY)
     private AnalysisOperation analysisOperation;
 
-    public UploadedFiles() {}
+    public UploadedFile() {
+    }
 
-    public UploadedFiles(String name, byte[] data) {
+    public UploadedFile(String name, byte[] data) {
         this.name = name;
         this.data = data;
     }

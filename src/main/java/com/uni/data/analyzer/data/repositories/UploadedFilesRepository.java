@@ -1,9 +1,9 @@
 package com.uni.data.analyzer.data.repositories;
 
-import com.uni.data.analyzer.data.model.UploadedFiles;
+import com.uni.data.analyzer.data.model.UploadedFile;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UploadedFilesRepository extends CrudRepository<UploadedFiles, Long> {
+public interface UploadedFilesRepository extends CrudRepository<UploadedFile, Long> {
 
-    UploadedFiles findAllByAnalysisOperation_Id(Long analysisId);
+    UploadedFile findAllByAnalysisOperation_Id(Long analysisId);
 }
