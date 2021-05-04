@@ -15,7 +15,10 @@ import org.springframework.stereotype.Service;
 import utils.data.MultiValueMap;
 import utils.data.impl.MultiValueMapImpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -178,7 +181,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
     private Map<String, Object> calculateCorrelationAnalysis(AnalysisOperation operation, FileData<String> logsFile, List<FileData<Double>> resultsFiles) {
         // correlation between student grade & frequency distribution on number of viewed courses
         Map<String, Integer> absoluteFrequencyOnViewedCoursesPerStudent = getAbsoluteFrequencyOnViewedCoursesPerStudent(logsFile);
-        Map<String, com.uni.data.analyzer.analyzers.analysis.CorrelationAnalysis> analysisData = new HashMap<>();
+        List<Map<String, com.uni.data.analyzer.analyzers.analysis.CorrelationAnalysis>> analysisData = new ArrayList<>();
 
         for (FileData<Double> resultsFile : resultsFiles) {
             Map<String, Double> studentGrades = studentService.getStudentGrades(resultsFile);
@@ -190,7 +193,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
                 studentGradeViewsFrequency.put(entry.getKey(), entry.getValue(), viewCount);
             }
 
-            analysisData.put(resultsFile.getFile().getName(), correlationAnalyzer.analyze(studentGradeViewsFrequency));
+            analysisData.add(Map.of(resultsFile.getFile().getName(), correlationAnalyzer.analyze(studentGradeViewsFrequency)));
         }
 
         CorrelationAnalysis correlationAnalysis = toDomainObject(analysisData);

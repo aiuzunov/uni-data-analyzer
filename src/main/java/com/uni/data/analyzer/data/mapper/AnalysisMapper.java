@@ -2,16 +2,19 @@ package com.uni.data.analyzer.data.mapper;
 
 import com.uni.data.analyzer.data.model.analysis.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AnalysisMapper {
 
-    public static CorrelationAnalysis toDomainObject(Map<String, com.uni.data.analyzer.analyzers.analysis.CorrelationAnalysis> analysis) {
-        List<CorrelationAnalysisEntry> entries = analysis.entrySet().stream()
-                .map(entry -> new CorrelationAnalysisEntry(entry.getKey(), entry.getValue().getCorrelationCoefficient()))
-                .collect(Collectors.toUnmodifiableList());
+    public static CorrelationAnalysis toDomainObject(List<Map<String, com.uni.data.analyzer.analyzers.analysis.CorrelationAnalysis>> analysis) {
+        List<CorrelationAnalysisEntry> entries = new ArrayList<>();
+
+        for (Map<String, com.uni.data.analyzer.analyzers.analysis.CorrelationAnalysis> entry : analysis) {
+            entry.forEach((key, value) -> entries.add(new CorrelationAnalysisEntry(key, value.getCorrelationCoefficient())));
+        }
 
         return new CorrelationAnalysis(entries);
     }
