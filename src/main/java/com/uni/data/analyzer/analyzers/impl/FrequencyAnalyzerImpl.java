@@ -13,19 +13,6 @@ import static utils.AnalysisValidationUtils.requireNonEmpty;
 
 public class FrequencyAnalyzerImpl implements FrequencyAnalyzer {
 
-    // определи абсолютна и относителна честота на избраните данни от (Вариант А)
-    // прегледани лекции - всяка една по отделно или заедно
-    // данни да се визуализират чрез честотна таблица
-
-    //  колко пъти всяка една стойност се среща в множество от данни на извадката
-    // броя на появявания на дадена стойност в това множество се нарича абсолютна честота
-
-    // когато дадена абсолютна честота се раздели на общия брой на данните в извадката то се получава относителна честота на съответната стойност
-
-    // get the number of results per key
-    // the number of results per key is that key's absolute frequency
-    // the number of results per key divided by the count of results it the key's relative frequency
-
     @Override
     public FrequencyAnalysis analyze(Map<String, Integer> values) {
         requireNonEmpty(values, FREQUENCY.getName());

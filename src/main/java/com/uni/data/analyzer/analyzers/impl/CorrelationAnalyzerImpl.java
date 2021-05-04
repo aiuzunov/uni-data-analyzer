@@ -13,9 +13,6 @@ import static utils.AnalysisValidationUtils.requireNonEmpty;
 
 public class CorrelationAnalyzerImpl implements CorrelationAnalyzer {
 
-    // зависимостта между оценката на всеки един студент за дадената дисциплина и
-    // честотното разрепделение на данните от (Вариант Б) брой качени файлове в системата
-
     @Override
     public CorrelationAnalysis analyze(MultiValueMap<String, Double, Double> map) {
         requireNonEmpty(map, CORRELATION.getName());
