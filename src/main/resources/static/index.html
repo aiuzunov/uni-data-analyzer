@@ -37,7 +37,7 @@
                         <h5 class="card-title">Качи два отделни xlsx/csv файла</h5>
                         <p class="card-text">Трябва и двата файла да са качени преди да може да се направи анализ.</p>
                         <div id="file2-error" class="alert alert-danger" role="alert" style="display: none"></div>
-                        <div id="file2-success" class="alert alert-success" role="alert" style="display: none">Файловете са успешно качени!</div>
+                        <div id="file2-success" class="alert alert-success" role="alert" style="display: none"></div>
                         <div class="row row-padding mt-3">
                             <div class="input-group">
                                 <input id="file1-file-picker" type="file" class="form-control" aria-label="Upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -61,6 +61,31 @@
                                 <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 2</button>
                                 <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 3</button>
                                 <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 4</button>
+                            </div>
+                        </div>
+                        <div style="display:none;" class="row mt-3 two-files-download-form">
+                            <div class="form-group" role="group" title="За да е активен бутона за сваляне на анализ трябва да сте качили файл за анализ.">
+                                <label for="selected-analysis">Изберете анализ за сваляне:</label>
+                                <select class="form-control" name="selected-analysis" id="selected-analysis">
+                                    <option value="1">Анализ 1</option>
+                                    <option value="2">Анализ 2</option>
+                                    <option value="3">Анализ 3</option>
+                                    <option value="4">Анализ 4</option>
+                                </select>
+                                <br>
+                                <label for="analysis-type">Изберете типа на файла, който да бъде свален:</label>
+                                <select class="form-control" name="analysis-type" id="analysis-type">
+                                    <option value="xlsx">XLSX</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="json">JSON</option>
+                                    <option value="jpeg">JPEG</option>
+                                </select>
+                                <br>
+                                <button id="two-files-download-btn" data-type="two-files" class="btn btn-outline-secondary" type="button">
+                                    <div id="downloading-progress" class="spinner-border spinner-border-sm" role="status" style="display: none"></div>
+                                    Свали Анализ
+                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -90,6 +115,32 @@
                                 <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 2</button>
                                 <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 3</button>
                                 <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 4</button>
+                            </div>
+
+
+                        </div>
+                        <div style="display:none;" class="row mt-3 zip-download-form">
+                            <div class="form-group" role="group" title="За да е активен бутона за сваляне на анализ трябва да сте качили файл за анализ.">
+                                <label for="zip-selected-analysis">Изберете анализ за сваляне:</label>
+                                <select class="form-control" name="zip-selected-analysis" id="zip-selected-analysis">
+                                    <option value="1">Анализ 1</option>
+                                    <option value="2">Анализ 2</option>
+                                    <option value="3">Анализ 3</option>
+                                    <option value="4">Анализ 4</option>
+                                </select>
+                                </br>
+                                <label for="zip-analysis-type">Изберете типа на файла, който да бъде свален:</label>
+                                <select class="form-control" name="zip-analysis-type" id="zip-analysis-type">
+                                    <option value="xlsx">XLSX</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="json">JSON</option>
+                                    <option value="jpeg">JPEG</option>
+                                </select>
+                                </br>
+                                <button id="zip-download-btn" data-type="zip" class="btn btn-outline-secondary" type="button">
+                                    <div id="zip-downloading-progress" class="spinner-border spinner-border-sm" role="status" style="display: none"></div>
+                                    Свали Анализ
+                                </button>
                             </div>
                         </div>
                     </div>

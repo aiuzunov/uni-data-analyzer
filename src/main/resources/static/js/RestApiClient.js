@@ -31,4 +31,38 @@ var RestApiClient = {
             error: onError
         });
     }
+    ,
+
+    downloadFiles: function (formType, onSuccess, onError) {
+        let formData = new FormData();
+        if(formType == "two-files"){
+            formData.append("selected-analysis",$("#selected-analysis").val() );
+            formData.append("analysis-type",$("#analysis-type").val() );
+        }
+        else if(formType == "zip"){
+            formData.append("selected-analysis",$("#zip-selected-analysis").val() );
+            formData.append("analysis-type",$("#zip-analysis-type").val() );
+        }
+        else
+        {
+            $("#file2-error").text("WTF");
+            $("#file2-error").show();
+        }
+
+
+        $.ajax({
+            type: 'POST',
+            method: 'POST',
+            xhrFields: {
+                        responseType: 'blob'
+                    },
+            processData: false,
+            contentType: false,
+            cache: false,
+            url: '/analyse/download',
+            data: formData,
+            success: onSuccess,
+            error: onError
+        });
+    }
 }

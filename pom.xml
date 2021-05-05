@@ -80,6 +80,12 @@
             <version>2.53.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+
 
 
     </dependencies>
