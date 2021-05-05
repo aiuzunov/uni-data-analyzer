@@ -1,23 +1,19 @@
 package com.uni.data.analyzer.services.impl;
 
 import com.opencsv.exceptions.CsvValidationException;
-import com.uni.data.analyzer.data.model.AnalysisOperation;
-import com.uni.data.analyzer.data.model.UploadedFiles;
+import com.uni.data.analyzer.data.model.analysis.AnalysisOperation;
+import com.uni.data.analyzer.data.model.UploadedFile;
 import com.uni.data.analyzer.data.repositories.AnalysisOperationRepository;
 import com.uni.data.analyzer.data.repositories.UploadedFilesRepository;
 import com.uni.data.analyzer.services.FileParser;
 import com.uni.data.analyzer.services.FileStorageService;
-import org.apache.poi.EmptyFileException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.xmlbeans.impl.store.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -69,7 +65,8 @@ public class FileStorageServiceImpl implements FileStorageService {
             while((bytesRead = zipStream.read()) != -1) {
                 streamBuilder.write(tempBuffer, 0, bytesRead);
             }
-            var fileEntity = new UploadedFiles(entry.getName(), streamBuilder.toByteArray());
+            var fileEntity = new UploadedFile(entry.getName(), streamBuilder.toByteArray());
+            fileEntity.setAnalysisOperation(analysisOperation);
             uploadedFilesRepository.save(fileEntity);
             analysisOperation.getUploadedFiles().add(fileEntity);
         }
@@ -92,7 +89,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         analysisOperation = analysisOperationRepository.save(analysisOperation);
 
         for (MultipartFile file : files) {
-            var fileEntity = new UploadedFiles(file.getOriginalFilename(), file.getBytes());
+            var fileEntity = new UploadedFile(file.getOriginalFilename(), file.getBytes());
             fileEntity.setAnalysisOperation(analysisOperation);
             uploadedFilesRepository.save(fileEntity);
             analysisOperation.getUploadedFiles().add(fileEntity);

@@ -56,11 +56,11 @@
                             </button>
                         </span>
                         <div class="row mt-3">
-                            <div class="btn-group" role="group" title="За да са активни бутоните за анализ трябва да сте качили файлове за анализ.">
-                                <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 1</button>
-                                <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 2</button>
-                                <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 3</button>
-                                <button type="button" class="btn btn-outline-primary two-files" disabled>Анализ 4</button>
+                            <div class="btn-group-vertical" role="group" title="За да са активни бутоните за анализ трябва да сте качили файлове за анализ.">
+                                <button type="button" id="files-correlation-analysis-btn" class="btn btn-outline-primary two-files" disabled>Кореларионнен анализ на брой качени файлове</button>
+                                <button type="button" id="files-dispersion-analysis-btn" class="btn btn-outline-primary two-files" disabled>Определяне на мерки за разсейване за прегледани лекции</button>
+                                <button type="button" id="files-central-trend-analysis-btn" class="btn btn-outline-primary two-files" disabled>Определяна на мерки на централна тенденция за прегледани лекции</button>
+                                <button type="button" id="files-frequency-analysis-btn" class="btn btn-outline-primary two-files" disabled>Честотно Разпределение на прегледани лекции</button>
                             </div>
                         </div>
                         <div style="display:none;" class="row mt-3 two-files-download-form">
@@ -90,6 +90,8 @@
                         </div>
                     </div>
                 </div>
+                <div id="files-column">
+                </div>
             </div>
             <div class="col-sm-6">
                 <div class="card">
@@ -110,11 +112,11 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="btn-group" role="group" title="За да са активни бутоните за анализ трябва да сте качили файл за анализ.">
-                                <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 1</button>
-                                <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 2</button>
-                                <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 3</button>
-                                <button type="button" class="btn btn-outline-primary zip-file" disabled>Анализ 4</button>
+                            <div class="btn-group-vertical" role="group" title="За да са активни бутоните за анализ трябва да сте качили файл за анализ.">
+                                <button id="zip-correlation-analysis-btn" type="button" class="btn btn-outline-primary zip-file" disabled>Кореларионнен анализ на брой качени файлове</button>
+                                <button id="zip-dispersion-analysis-btn" type="button" class="btn btn-outline-primary zip-file" disabled>Определяне на мерки за разсейване за прегледани лекции</button>
+                                <button id="zip-central-trend-analysis-btn" type="button" class="btn btn-outline-primary zip-file" disabled>Определяна на мерки на централна тенденция за прегледани лекции</button>
+                                <button id="zip-frequency-analysis-btn" type="button" class="btn btn-outline-primary zip-file" disabled>Честотно Разпределение на прегледани лекции</button>
                             </div>
 
 
@@ -145,12 +147,134 @@
                         </div>
                     </div>
                 </div>
+                <div id="zip-column">
+                </div>
             </div>
         </div>
     </div>
 
+    <script id="loading-spinner-template" type="text/x-custom-template">
+        <div style="text-align: center">
+            <div id="{{spinner-id}}" class="spinner-border" role="status" style="width: 3rem; height: 3rem; margin-top: 1rem; margin-bottom: 1rem;"></div>
+        </div>
+    </script>
+
+    <script id="error-message-template" type="text/x-custom-template">
+        <div id="{{id}}" class="card" style="margin-top: 1rem">
+            <div class="card-body">
+                <h5 class="card-title">{{errorName}}</h5>
+                <div class="alert alert-danger" role="alert">{{error}}</div>
+            </div>
+        </div>
+    </script>
+
+    <script id="frequency-analysis-template", type="text/x-custom-template">
+        <div id="{{frequencyAnalysisCardId}}" class="card" style="margin-top: 1rem;">
+            <div class="card-body">
+                <h5 class="card-title">Честотно резпределение на прегледани лекции</h5>
+                <div id="viewed-courses-frequency-analysis-error" class="alert alert-danger" role="alert" style="display: none"></div>
+                <div id="viewed-courses-frequency-analysis-success" class="alert alert-success" role="alert" style="display: none">Успешно генериран анализ!</div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Лекция</th>
+                        <th scope="col">Абсолютна честота</th>
+                        <th scope="col">Относителна честота</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{rows}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+    <script id="frequency-analysis-row-template" type="text/x-custom-template">
+        <tr>
+            <td>{{name}}</td>
+            <td>{{absoluteFrequency}}</td>
+            <td>{{relativeFrequency}}</td>
+        </tr>
+    </script>
+
+    <script id="dispersion-analysis-template" type="text/x-custom-template">
+        <div id="{{dispersionCardId}}" class="card" style="margin-top: 1rem;">
+            <div class="card-body">
+                <h5 class="card-title">Мерки на разсейване за прегледани лекции</h5>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Размах</th>
+                        <td>{{scope}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Дисперсия</th>
+                        <td>{{dispersion}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Стандартно отклонение</th>
+                        <td>{{standardDeviation}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+    <script id="central-trend-analysis-template" type="text/x-custom-template">
+        <div id="{{centralTrendCardId}}" class="card" style="margin-top: 1rem;">
+            <div class="card-body">
+                <h5 class="card-title">Мерки на централната тенденция за прегледани лекции</h5>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Средна</th>
+                        <td>{{mean}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Медиана</th>
+                        <td>{{median}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Мода</th>
+                        <td>{{modes}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+    <script id="correlation-analysis-template" type="text/x-custom-template">
+        <div id="{{correlationCardId}}" class="card" style="margin-top: 1rem;">
+            <div class="card-body">
+                <h5 class="card-title">Корелационен анализ</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Файл с резултати</th>
+                        <th scope="col">Корелационен коефициент</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{rows}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+    <script id="correlation-analysis-row-template" type="text/x-custom-template">
+        <tr>
+            <td>{{fileName}}</td>
+            <td>{{correlationCoefficient}}</td>
+        </tr>
+    </script>
+
     <script th:src="@{/js/RestApiClient.js}"></script>
     <script th:src="@{/js/FileManager.js}"></script>
+    <script th:src="@{/js/Analysis.js}"></script>
     <script th:src="@{/js/index.js}"></script>
 </body>
 </html>

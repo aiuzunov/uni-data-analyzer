@@ -30,6 +30,21 @@ var RestApiClient = {
             success: onSuccess,
             error: onError
         });
+    },
+
+    generateAnalysis: function (analysisName, onSuccess, onError) {
+        const url = '/analysis/' + analysisName;
+
+        return $.ajax({
+            type: 'POST',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            url: url,
+            success: onSuccess,
+            error: onError
+        });
     }
     ,
 

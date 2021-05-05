@@ -1,9 +1,9 @@
 package com.uni.data.analyzer.data.repositories;
 
-import com.uni.data.analyzer.data.model.AnalysisOperation;
+import com.uni.data.analyzer.data.model.analysis.AnalysisOperation;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AnalysisOperationRepository extends CrudRepository<AnalysisOperation, String> {
 
-    AnalysisOperation findBySessionId(String sessionId);
+    AnalysisOperation findFirstBySessionIdOrderByIdDesc(String sessionId);
 }
