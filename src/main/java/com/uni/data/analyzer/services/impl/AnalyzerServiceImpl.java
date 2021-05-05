@@ -134,9 +134,7 @@ public class AnalyzerServiceImpl implements AnalyzerService {
                 .collect(Collectors.toUnmodifiableList());
 
         // Return error if log parsing fails
-        parsedLogFile.getError().ifPresent(error -> {
-            saveErrorAnalysisAndThrowException(operation, filesForAnalysis, List.of(error));
-        });
+        parsedLogFile.getError().ifPresent(error -> saveErrorAnalysisAndThrowException(operation, filesForAnalysis, List.of(error)));
 
         // Return error if results parsing fails
         List<String> errors = parsedResultsFiles.stream().flatMap(parsedFile -> parsedFile.getError().isPresent() ?

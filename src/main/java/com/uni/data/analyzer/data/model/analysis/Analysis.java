@@ -6,14 +6,13 @@ import com.uni.data.analyzer.data.model.UploadedFile;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
 @Entity
 @Inheritance(strategy = TABLE_PER_CLASS)
-public abstract class Analysis extends BaseEntity {
+public abstract class Analysis extends BaseEntity implements AnalysisData {
 
     @ManyToMany
     @JoinTable(name = "analysis_files",
@@ -35,8 +34,6 @@ public abstract class Analysis extends BaseEntity {
     public Optional<String> getError() {
         return Optional.ofNullable(error);
     }
-
-    public abstract Map<String, Object> getValues();
 
     public List<UploadedFile> getFiles() {
         return files;

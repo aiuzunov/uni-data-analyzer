@@ -1,5 +1,7 @@
 package com.uni.data.analyzer.data.model.analysis;
 
+import com.uni.data.analyzer.data.model.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,7 +12,7 @@ import static utils.ArgumentValidationUtils.requireNonNull;
 
 @Entity
 @Table(name = "frequency_analysis_entry")
-public class FrequencyAnalysisEntry extends Analysis {
+public class FrequencyAnalysisEntry extends BaseEntity implements AnalysisData {
 
     public static final String NAME = "name";
     public static final String ABSOLUTE_FREQUENCY = "absoluteFrequency";

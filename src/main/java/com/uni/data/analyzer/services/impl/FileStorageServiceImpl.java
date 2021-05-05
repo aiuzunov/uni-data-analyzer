@@ -66,6 +66,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                 streamBuilder.write(tempBuffer, 0, bytesRead);
             }
             var fileEntity = new UploadedFile(entry.getName(), streamBuilder.toByteArray());
+            fileEntity.setAnalysisOperation(analysisOperation);
             uploadedFilesRepository.save(fileEntity);
             analysisOperation.getUploadedFiles().add(fileEntity);
         }

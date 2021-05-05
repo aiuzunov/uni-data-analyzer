@@ -1,5 +1,7 @@
 package com.uni.data.analyzer.data.model.analysis;
 
+import com.uni.data.analyzer.data.model.BaseEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -7,7 +9,7 @@ import java.util.Map;
 
 @Entity
 @Table(name = "correlation_analysis_entry")
-public class CorrelationAnalysisEntry extends Analysis {
+public class CorrelationAnalysisEntry extends BaseEntity implements AnalysisData {
 
     public static final String NAME = "name";
     public static final String CORRELATION_COEFFICIENT = "correlationCoefficient";
